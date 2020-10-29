@@ -4,7 +4,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 import logoImg from '../../assets/logo.svg';
@@ -21,6 +21,8 @@ interface SignInFormData {
 
 const SignIn: React.FunctionComponent = () => {
   const formRef = useRef<FormHandles>(null);
+
+  const history = useHistory();
 
   const { signIn } = useAuth();
 
@@ -41,17 +43,19 @@ const SignIn: React.FunctionComponent = () => {
           email: data.email,
           password: data.password,
         });
+
+        history.push('/dashboard');
       } catch (err) {
         console.log(err);
       }
     },
-    [signIn],
+    [signIn, history],
   );
 
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="GoBarber" />
+        <img src={logoImg} alt="Logo" />
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Faça seu Logon</h1>

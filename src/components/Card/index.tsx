@@ -5,23 +5,33 @@ import { Container } from './styles';
 
 interface CardProps {
   id: string;
-  description: string;
+  name: string;
   fromDate: string;
   toDate: string;
+  past: boolean;
+  today: boolean;
 }
-const Card: React.FC<CardProps> = ({ description, fromDate, toDate, id }) => {
+const Card: React.FC<CardProps> = ({
+  id,
+  name,
+  fromDate,
+  toDate,
+  past,
+  today,
+}) => {
   return (
     <Container>
-      <h2>name</h2>
-      <h3>{description}</h3>
+      <h5>{name}</h5>
       <p>
         {`De: ${fromDate}`}
         <br />
         {`Até: ${toDate}`}
       </p>
-      <hr />
+      {past && <span>passado</span>}
+      {today && <span>hoje</span>}
       <Link to={`/detail/${id}`}>
-        <FiArrowRightCircle size={20} color="#000" />
+        Ver
+        <FiArrowRightCircle size={20} color="#fff" />
       </Link>
     </Container>
   );

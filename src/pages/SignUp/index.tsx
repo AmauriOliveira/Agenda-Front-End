@@ -3,8 +3,9 @@ import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi'; // icons
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
+import { Link, useHistory } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
+import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 
 import Input from '../../components/Input';
@@ -19,31 +20,39 @@ interface SignUpFormData {
 }
 
 const SignUp: React.FunctionComponent = () => {
+  const history = useHistory();
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: SignUpFormData) => {
-    try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um E-mail válido'),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
-      });
+  const handleSubmit = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um E-mail válido'),
+          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        api.post('/users', data);
+
+        history.push('/');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [history],
+  );
 
   return (
     <Container>
       <Background />
       <Content>
-        <img src={logoImg} alt="GoBarber" />
+        <img src={logoImg} alt="Logo" />
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Faça seu cadastro</h1>
           <Input name="name" icon={FiUser} placeholder="Nome" />

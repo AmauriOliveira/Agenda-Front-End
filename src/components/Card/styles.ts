@@ -10,35 +10,48 @@ export const Container = styled.div`
   max-width: 100%;
   transition: background-color 0.2s;
   &:hover {
-    background: ${shade(0.2, '#ffffcc')};
+    background: ${shade(0.1, '#ffffcc')};
   }
-  h1 {
-    margin-top: 16px;
-    font-size: 36px;
-    line-height: 42px;
-    color: #322153;
-  }
-
-  h3 {
+  h5 {
     margin: 12px 0;
-    font-family: Roboto, sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 34px;
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
     color: #6600cc;
-  }
-  hr {
-    margin: 4px 0;
-    color: #000;
   }
 
   p {
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 12px;
+    line-height: 20px;
     color: #000;
   }
-  svg {
-    position: relative;
-    left: 90%;
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    background: #6600cc;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    margin: 4px;
+    padding: 4px;
+
+    svg {
+      margin-left: 8px;
+    }
+
+    &:hover {
+      background: ${shade(0.2, '#6600cc')};
+    }
+  }
+  .past {
+    background: #6600cc;
+    color: #fff;
+    font-size: 10px;
+    padding: 4px;
+    border-radius: 2px;
   }
 `;
