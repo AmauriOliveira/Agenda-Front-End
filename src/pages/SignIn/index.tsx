@@ -46,7 +46,8 @@ const SignIn: React.FunctionComponent = () => {
 
         history.push('/dashboard');
       } catch (err) {
-        console.log(err);
+        // console.log(err);
+        alert(err);
       }
     },
     [signIn, history],

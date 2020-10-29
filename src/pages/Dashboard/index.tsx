@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { FiLogOut, FiPlus } from 'react-icons/fi';
-import { format, isToday, isPast, parseISO } from 'date-fns';
+import { format, isToday, isPast, parseISO, endOfDay } from 'date-fns';
 import 'date-fns/locale/pt-BR';
 
 import Card from '../../components/Card';
@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
           );
 
           const today = isToday(parseISO(event.fromDate));
-          const past = isPast(parseISO(event.toDate));
+          const past = isPast(endOfDay(parseISO(event.toDate)));
 
           const formatTo = format(
             parseISO(event.fromDate),
@@ -81,11 +81,12 @@ const Dashboard: React.FC = () => {
               name={event.name}
               fromDate={formatFrom}
               toDate={formatTo}
-              past
-              today
+              past={past}
+              today={today}
             />
           );
         })}
+        {events.length === 0 && <h2>Você não tem eventos</h2>}
       </Cards>
     </Container>
   );

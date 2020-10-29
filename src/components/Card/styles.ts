@@ -9,9 +9,23 @@ export const Container = styled.div`
   padding: 8px;
   max-width: 100%;
   transition: background-color 0.2s;
+
   &:hover {
     background: ${shade(0.1, '#ffffcc')};
   }
+  &.past {
+    background: #ff6666;
+    &:hover {
+      background: ${shade(0.1, '#ff6666')};
+    }
+  }
+  &.today {
+    background: #ccffcc;
+    &:hover {
+      background: ${shade(0.1, '#ccffcc')};
+    }
+  }
+
   h5 {
     margin: 12px 0;
     font-family: sans-serif;
@@ -46,12 +60,5 @@ export const Container = styled.div`
     &:hover {
       background: ${shade(0.2, '#6600cc')};
     }
-  }
-  .past {
-    background: #6600cc;
-    color: #fff;
-    font-size: 10px;
-    padding: 4px;
-    border-radius: 2px;
   }
 `;

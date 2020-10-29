@@ -13,7 +13,7 @@ export const Container = styled.div`
     justify-content: space-around;
     align-items: center;
     width: 80vw;
-    background: #4b0082;
+    background: #0099cc;
     padding: 16px;
     border-radius: 0 0 10px 10px;
     box-shadow: 17.2868px 27.6589px 41.4884px rgba(23, 142, 166, 0.16);

@@ -20,15 +20,13 @@ const Card: React.FC<CardProps> = ({
   today,
 }) => {
   return (
-    <Container>
+    <Container className={(past && 'past') || (today && 'today') || ''}>
       <h5>{name}</h5>
       <p>
         {`De: ${fromDate}`}
         <br />
         {`Até: ${toDate}`}
       </p>
-      {past && <span>passado</span>}
-      {today && <span>hoje</span>}
       <Link to={`/detail/${id}`}>
         Ver
         <FiArrowRightCircle size={20} color="#fff" />
