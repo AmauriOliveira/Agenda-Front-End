@@ -13,6 +13,8 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
 
+import getValidationErrors from '../../utils/getValidationErrors';
+
 interface SignUpFormData {
   name: string;
   email: string;
@@ -26,6 +28,8 @@ const SignUp: React.FunctionComponent = () => {
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
       try {
+        formRef.current?.setErrors({});
+
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
@@ -42,7 +46,8 @@ const SignUp: React.FunctionComponent = () => {
 
         history.push('/');
       } catch (err) {
-        console.log(err);
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
       }
     },
     [history],

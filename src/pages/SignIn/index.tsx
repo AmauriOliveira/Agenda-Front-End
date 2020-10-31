@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -29,6 +30,8 @@ const SignIn: React.FunctionComponent = () => {
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
+        formRef.current?.setErrors({});
+
         const schema = Yup.object().shape({
           email: Yup.string()
             .required('E-mail obrigatório')
@@ -46,8 +49,11 @@ const SignIn: React.FunctionComponent = () => {
 
         history.push('/dashboard');
       } catch (err) {
-        // console.log(err);
-        alert(err);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+        }
       }
     },
     [signIn, history],
