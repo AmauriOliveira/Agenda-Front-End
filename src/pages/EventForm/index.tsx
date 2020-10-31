@@ -5,6 +5,7 @@ import { FiCalendar, FiMessageSquare, FiTag } from 'react-icons/fi';
 import * as Yup from 'yup';
 
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 import { useToast } from '../../hooks/Toast';
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -75,6 +76,7 @@ const EventForm: React.FC = () => {
     },
     [addToast, token, history],
   );
+
   return (
     <Container>
       <Background />
@@ -91,9 +93,19 @@ const EventForm: React.FC = () => {
             placeholder="Descrição"
           />
           <p>Data e Hora do Inicio</p>
-          <Input name="fromDate" icon={FiCalendar} type="datetime-local" />
+          <Input
+            name="fromDate"
+            icon={FiCalendar}
+            min={format(Date.now(), "yyyy-MM-dd'T'HH:mm")}
+            type="datetime-local"
+          />
           <p>Data e Hora do Fim</p>
-          <Input name="toDate" icon={FiCalendar} type="datetime-local" />
+          <Input
+            name="toDate"
+            icon={FiCalendar}
+            min={format(Date.now(), "yyyy-MM-dd'T'HH:mm")}
+            type="datetime-local"
+          />
           <div>
             <Button type="submit">Salvar</Button>
             <Button type="button" onClick={() => history.push('/dashboard')}>
