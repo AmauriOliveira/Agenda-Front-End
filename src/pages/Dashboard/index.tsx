@@ -1,17 +1,15 @@
 /* eslint-disable import/no-duplicates */
 import React, { useEffect, useState } from 'react';
-
-import { Link } from 'react-router-dom';
 import { FiLogOut, FiPlus } from 'react-icons/fi';
 import { format, isToday, isPast, parseISO, endOfDay } from 'date-fns';
 import 'date-fns/locale/pt-BR';
+import { useHistory } from 'react-router-dom';
 
 import Card from '../../components/Card';
 import api from '../../services/api';
-// import { useAuth } from '../../hooks/AuthContext';
-
-import { Container, Cards } from './styles';
-import logoImg from '../../assets/logo.svg';
+import { Container, Cards, Label } from './styles';
+import Button from '../../components/Button';
+import { useAuth } from '../../hooks/Auth';
 
 interface Event {
   id: string;
@@ -22,25 +20,13 @@ interface Event {
   userId: string;
 }
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 const Dashboard: React.FC = () => {
   const [events, setEvent] = useState<Event[]>([]);
-  const [user, setUser] = useState<User>();
-  const [token, setToken] = useState<string>();
-  // const { user. } = useAuth();
-  useEffect(() => {
-    const tokenStorage = localStorage.getItem('@TokenLab:token');
-    const userStorage = localStorage.getItem('@TokenLab:user');
 
-    if (tokenStorage && userStorage) {
-      setToken(tokenStorage);
-      setUser(JSON.parse(userStorage));
-    }
+  const history = useHistory();
+  const { token, user, signOut } = useAuth();
+
+  useEffect(() => {
     api
       .get('events', { headers: { Authorization: `Bearer ${token}` } })
       .then(response => {
@@ -51,14 +37,18 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <header>
-        <Link to="/orphanages/create" className="create-orphanage">
-          <FiPlus size={32} color="#FFF" />
-        </Link>
-        <img src={logoImg} alt="Logo" />
-        <Link to="/orphanages/create" className="create-orphanage">
-          <FiLogOut size={32} color="#FFF" />
-        </Link>
+        <Label title="Adicionar Evento">
+          <Button type="button" onClick={() => history.push('/add')}>
+            <FiPlus size={32} color="#FFF" />
+          </Button>
+        </Label>
+        <Label title="LogOut">
+          <Button type="button" onClick={() => signOut()}>
+            <FiLogOut size={32} color="#FFF" />
+          </Button>
+        </Label>
       </header>
+      <footer>{`Seja bem vindo(a) ${user.name}`}</footer>
       <Cards>
         {events.map(event => {
           const formatFrom = format(

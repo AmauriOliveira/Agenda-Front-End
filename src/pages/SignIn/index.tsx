@@ -3,9 +3,10 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-
 import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from '../../hooks/AuthContext';
+
+import { useAuth } from '../../hooks/Auth';
+import { useToast } from '../../hooks/Toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
@@ -26,6 +27,7 @@ const SignIn: React.FunctionComponent = () => {
   const history = useHistory();
 
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
@@ -42,7 +44,7 @@ const SignIn: React.FunctionComponent = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-        signIn({
+        await signIn({
           email: data.email,
           password: data.password,
         });
@@ -53,10 +55,16 @@ const SignIn: React.FunctionComponent = () => {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
+          return;
         }
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Verefique o Login e a Senha',
+        });
       }
     },
-    [signIn, history],
+    [signIn, history, addToast],
   );
 
   return (
@@ -65,7 +73,7 @@ const SignIn: React.FunctionComponent = () => {
         <img src={logoImg} alt="Logo" />
 
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu Logon</h1>
+          <h1>Faça seu Login</h1>
           <Input name="email" icon={FiMail} placeholder="E-mail" />
           <Input
             name="password"

@@ -6,14 +6,14 @@ import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
-import logoImg from '../../assets/logo.svg';
+import getValidationErrors from '../../utils/getValidationErrors';
+import { useToast } from '../../hooks/Toast';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
-
-import getValidationErrors from '../../utils/getValidationErrors';
+import logoImg from '../../assets/logo.svg';
 
 interface SignUpFormData {
   name: string;
@@ -23,6 +23,7 @@ interface SignUpFormData {
 
 const SignUp: React.FunctionComponent = () => {
   const history = useHistory();
+  const { addToast } = useToast();
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
@@ -42,15 +43,31 @@ const SignUp: React.FunctionComponent = () => {
           abortEarly: false,
         });
 
-        api.post('/users', data);
+        await api.post('/users', data);
+
+        addToast({
+          type: 'success',
+          title: 'Cadastro Realizado!',
+          description: 'Você já pode fazer seu Login.',
+        });
 
         history.push('/');
       } catch (err) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+          return;
+        }
+        addToast({
+          type: 'error',
+          title: 'Erro na cadastro',
+          description:
+            'Erro ao realizar o cadastro, Verifique os dados e tente novamente.',
+        });
       }
     },
-    [history],
+    [history, addToast],
   );
 
   return (

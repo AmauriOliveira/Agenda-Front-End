@@ -27,7 +27,7 @@ const Card: React.FC<CardProps> = ({
         <br />
         {`Até: ${toDate}`}
       </p>
-      <Link to={`/detail/${id}`}>
+      <Link to={`/event/${id}`}>
         Ver
         <FiArrowRightCircle size={20} color="#fff" />
       </Link>
