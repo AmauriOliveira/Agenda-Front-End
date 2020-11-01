@@ -46,7 +46,7 @@ export const Content = styled.div<MenuProps>`
   min-width: 150px;
   max-width: 250px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-  background: #6a57cc;
+  background: #6666ff;
 
   .menu {
     padding: 10px;
@@ -61,6 +61,8 @@ export const Content = styled.div<MenuProps>`
       border: 0;
       background: #6600cc;
       border-radius: 4px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
       transition: background-color 0.2s;
 
       &:hover {
