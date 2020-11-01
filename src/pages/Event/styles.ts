@@ -45,6 +45,12 @@ export const Content = styled.div`
     width: 440px;
     text-align: center;
 
+    @media (max-width: 450px) {
+      margin: 40px 0;
+      width: 300px;
+      text-align: center;
+    }
+
     p {
       margin: 5px 0;
     }
@@ -138,13 +144,13 @@ export const Label = styled(Tooltip)`
 
   span {
     flex: 1;
-    background: #c53030;
-    color: #fff;
+    background: #ebf8ff;
+    color: #3172b7;
     bottom: calc(80% - 12px);
     left: 50%;
     transform: translate(-50%);
     &::before {
-      border-color: #c53030 transparent;
+      border-color: #ebf8ff transparent;
     }
   }
 `;

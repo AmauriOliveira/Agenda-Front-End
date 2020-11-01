@@ -27,9 +27,15 @@ export const Content = styled.div`
   place-content: center;
   width: 100%;
   max-width: 700px;
+
   form {
     margin: 30px 0;
     width: 440px;
+
+    @media (max-width: 450px) {
+      margin: 5px 0;
+      width: 300px;
+    }
 
     text-align: center;
     p {

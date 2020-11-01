@@ -28,13 +28,22 @@ export const Content = styled.div`
   place-content: center;
   width: 100%;
   max-width: 700px;
+
   form {
     margin: 80px 0;
     width: 340px;
     text-align: center;
+
+    @media (max-width: 450px) {
+      margin: 40px 0;
+      width: 300px;
+      text-align: center;
+    }
+
     h1 {
       margin-bottom: 24px;
     }
+
     a {
       color: #000;
       display: block;

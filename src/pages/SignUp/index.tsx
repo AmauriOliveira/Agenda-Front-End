@@ -89,7 +89,7 @@ const SignUp: React.FunctionComponent = () => {
         </Form>
         <Link to="/">
           <FiArrowLeft />
-          Voltar para Logon
+          Voltar para Login
         </Link>
       </Content>
     </Container>
