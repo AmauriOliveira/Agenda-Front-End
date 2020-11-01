@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/Auth';
 import api from '../../services/api';
-import { Container, Content, Background, Label } from './styles';
+import { Container, Content, Background, Label, View } from './styles';
 import logoImg from '../../assets/logo.svg';
 import { useToast } from '../../hooks/Toast';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -21,7 +21,6 @@ interface EventDTO {
   fromDate: string;
   toDate: string;
 }
-
 interface PostParams {
   id: string;
 }
@@ -97,6 +96,33 @@ const Event: React.FC = () => {
     [addToast, token, history, params.id],
   );
 
+  async function handleDeleteEvent(): Promise<void> {
+    console.log('click');
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+    try {
+      await api.delete(`events/${params.id}`, {
+        headers,
+      });
+
+      addToast({
+        type: 'success',
+        title: 'Evento deletado.',
+        description: 'Deletado com sucesso, voltando para dashboard.',
+      });
+
+      history.push('/dashboard');
+    } catch (error) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao deletar',
+        description: 'Falha ao deletar o evento, tente novamente',
+      });
+    }
+  }
+
   return (
     <Container>
       {editMode && event && (
@@ -112,7 +138,7 @@ const Event: React.FC = () => {
               toDate: format(parseISO(event.toDate), "yyyy-MM-dd'T'HH:mm"),
             }}
           >
-            <h1>Editar evento</h1>
+            <strong>Editar evento</strong>
             <p>Nome do Evento</p>
             <Input name="name" icon={FiTag} placeholder="Nome" />
             <p>Descrição do Evento</p>
@@ -136,10 +162,14 @@ const Event: React.FC = () => {
               min={format(Date.now(), "yyyy-MM-dd'T'HH:mm")}
             />
             <div>
-              <Button type="submit">Salvar</Button>
-              <Button type="button" onClick={() => setEditMode(!editMode)}>
-                Cancelar
-              </Button>
+              <Label title="Salvar Alterações">
+                <Button type="submit">Salvar</Button>
+              </Label>
+              <Label title="Sair da edição">
+                <Button type="button" onClick={() => setEditMode(!editMode)}>
+                  Cancelar
+                </Button>
+              </Label>
             </div>
           </Form>
         </Content>
@@ -147,24 +177,43 @@ const Event: React.FC = () => {
       <Background />
       {!editMode && event && (
         <Content>
-          <p>{event.name}</p>
-          <p>{event.description}</p>
-          <p>
-            {format(parseISO(event.fromDate), "dd/MMM/yyyy', às ' HH:mm'h'")}
-          </p>
-          <p>{format(parseISO(event.toDate), "dd/MMM/yyyy', às ' HH:mm'h'")}</p>
-          <div>
-            <Label title="Editar">
-              <Button type="button" onClick={() => setEditMode(!editMode)}>
-                Editar
-              </Button>
-            </Label>
-            <Label title="Atenção é parmanente">
+          <header>
+            <Label title="Voltar para Dashboard">
               <Button type="button" onClick={() => history.push('/dashboard')}>
-                Apagar
+                Voltar
               </Button>
             </Label>
-          </div>
+          </header>
+          <View>
+            <strong>{event.name}</strong>
+            <span>{event.description}</span>
+            <p>
+              Inicio:
+              {format(
+                parseISO(event.fromDate),
+                " dd MMMM' de 'yyyy', às ' HH:mm'h'",
+              )}
+            </p>
+            <p>
+              Fim:
+              {format(
+                parseISO(event.toDate),
+                " dd MMMM' de 'yyyy', às ' HH:mm'h'",
+              )}
+            </p>
+            <div>
+              <Label title="Editar o evento">
+                <Button type="button" onClick={() => setEditMode(!editMode)}>
+                  Editar
+                </Button>
+              </Label>
+              <Label title="Apagar o evento">
+                <Button type="button" onClick={handleDeleteEvent}>
+                  Apagar
+                </Button>
+              </Label>
+            </div>
+          </View>
         </Content>
       )}
     </Container>

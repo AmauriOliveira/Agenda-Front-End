@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled, { keyframes } from 'styled-components';
 
 import CreateBackgroundImg from '../../assets/Create.jpg';
 import Tooltip from '../../components/Tooltip';
@@ -10,6 +9,28 @@ export const Container = styled.div`
   align-items: stretch;
 `;
 
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const appearFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,36 +38,89 @@ export const Content = styled.div`
   place-content: center;
   width: 100%;
   max-width: 700px;
+
   form {
+    animation: ${appearFromLeft} 1s;
     margin: 30px 0;
     width: 440px;
-
     text-align: center;
+
     p {
       margin: 5px 0;
     }
 
-    h1 {
-      margin-bottom: 24px;
+    strong {
+      font-weight: bold;
+      font-size: 30px;
+      line-height: 30px;
+      margin-top: 20 0px;
+      font-family: sans-serif;
+      color: #6600cc;
     }
 
-    a {
-      color: #6600cc;
-      display: block;
-      margin-top: 24px;
-      text-decoration: none;
-      transition: color 0.2s;
-      &:hover {
-        color: ${shade(0.2, '#6600cc')};
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+
+      button {
+        margin: 20px 10px;
       }
     }
   }
+  header {
+    position: absolute;
+    width: 100%;
+    max-width: 500px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+  }
+`;
+
+export const View = styled.section`
+  animation: ${appearFromRight} 1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #ffffcc;
+  width: 100%;
+  max-width: 500px;
+  padding: 16px;
+  border-radius: 8px;
+
+  > strong {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 30px;
+    margin-top: 16px;
+    font-family: sans-serif;
+    color: #6600cc;
+  }
+
+  > span {
+    font-size: 24px;
+    line-height: 30px;
+    margin-top: 16px;
+    color: #000;
+  }
+  > p {
+    line-height: 30px;
+    margin-top: 16px;
+  }
+
   div {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 100%;
+
     button {
-      margin: 5px;
+      margin: 20px 10px;
     }
   }
 `;
@@ -61,6 +135,7 @@ export const Label = styled(Tooltip)`
   display: flex;
   justify-content: center;
   align-items: center;
+
   span {
     flex: 1;
     background: #c53030;

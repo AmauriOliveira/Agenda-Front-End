@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
           const past = isPast(endOfDay(parseISO(event.toDate)));
 
           const formatTo = format(
-            parseISO(event.fromDate),
+            parseISO(event.toDate),
             "dd/MMM/yyyy', às ' HH:mm'h'",
           );
 
